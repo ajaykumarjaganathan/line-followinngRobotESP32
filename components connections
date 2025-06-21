@@ -1,0 +1,28 @@
+Wiring Guide
+OLED (I2C)
+OLED Pin	ESP32 Pin
+SDA	GPIO 21
+SCL	GPIO 22
+VCC	3.3V
+GND	GND
+HC-SR04
+HC-SR04 Pin	ESP32 Pin
+VCC	5V
+Trig	GPIO 12
+Echo	GPIO 13
+GND	GND
+Line Sensors (Example for 3x TCRT5000)
+Left: GPIO 32
+
+Middle: GPIO 35
+
+Right: GPIO 34
+
+L298N Motor Driver
+IN1 → GPIO 25
+
+IN2 → GPIO 26
+
+IN3 → GPIO 27
+
+IN4 → GPIO 14
