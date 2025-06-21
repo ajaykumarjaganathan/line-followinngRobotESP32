@@ -1,28 +1,29 @@
-Wiring Guide
-OLED (I2C)
-OLED Pin	ESP32 Pin
-SDA	GPIO 21
-SCL	GPIO 22
-VCC	3.3V
-GND	GND
-HC-SR04
-HC-SR04 Pin	ESP32 Pin
-VCC	5V
-Trig	GPIO 12
-Echo	GPIO 13
-GND	GND
-Line Sensors (Example for 3x TCRT5000)
-Left: GPIO 32
+                                                                   Wiring Guide
+***OLED DISPLAY-(I2C)***
 
-Middle: GPIO 35
+OLED Pin -	ESP32 Pin
+SDA      -	GPIO 21
+SCL      -	GPIO 22
+VCC      -	3.3V
+GND      -	GND
 
-Right: GPIO 34
+***ULTRASONIC SENSOR***
 
-L298N Motor Driver
-IN1 → GPIO 25
+HC-SR04 Pin   	ESP32 Pin  |	Notes
+VCC	            -5V        |Power supply
+Trig     	      -GPIO 12	 |Output    (initiates sensor)
+Echo	          -GPIO 13	 |Input (measures pulse)
+GND	            -GND	     |Common ground
 
-IN2 → GPIO 26
 
-IN3 → GPIO 27
+***Line Sensors***
+Sensor   	ESP32 Pin
+Left	   -GPIO 32
+Right	   -GPIO 33
 
-IN4 → GPIO 14
+***L298N Motor Driver***
+DRIVER    ESP32
+IN1      - GPIO 25
+IN2      - GPIO 26
+IN3      - GPIO 27
+IN4      - GPIO 14
