@@ -44,3 +44,5 @@ Ultrasonic Sensor**
 HC-SR04 (or JSN-SR04T for waterproofing)
 Function: Detects obstacles ahead (e.g., 10cm threshold to stop motors).
 
+contact on instagram: @dr_dehathir 
+
