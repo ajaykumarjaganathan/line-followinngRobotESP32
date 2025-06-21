@@ -1,0 +1,70 @@
+### **Required Libraries & Software Setup**  
+
+#### **1. Required Libraries**  
+Install these libraries in your Arduino IDE (via **Library Manager**):  
+- **`Adafruit SSD1306`** (for OLED display)  
+- **`Adafruit GFX`** (for graphics/drawing shapes)  
+- **`Wire`** (built-in, for I2C communication)  
+
+**How to Install Libraries:**  
+1. Open **Arduino IDE**  
+2. Go to **Sketch → Include Library → Manage Libraries**  
+3. Search and install:  
+   - `Adafruit SSD1306`  
+   - `Adafruit GFX`  
+
+---
+
+### **2. Recommended Software & Environment**  
+#### **Option 1: Arduino IDE (Simplest)**  
+- **Download**: [Arduino IDE (2.x recommended)](https://www.arduino.cc/en/software)  
+- **ESP32 Setup**:  
+  1. Go to **File → Preferences**  
+  2. Add this URL in **Additional Boards Manager URLs**:  
+     ```
+     https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+     ```  
+  3. Go to **Tools → Board → Boards Manager**, search `esp32`, and install **ESP32 by Espressif Systems**  
+  4. Select board: **ESP32 Dev Module**  
+
+#### **Option 2: PlatformIO (Advanced, Better for Larger Projects)**  
+- **Best for**: Professional projects with multiple files  
+- **Installation**:  
+  - **VSCode Extension**: [PlatformIO IDE](https://platformio.org/)  
+  - **Auto-detects ESP32** (no manual URL needed)  
+
+---
+
+### **3. Wiring Check**  
+Ensure your hardware is connected correctly:  
+
+| **Component**    | **ESP32 Pin** |  
+|------------------|--------------|  
+| OLED SDA         | GPIO 21      |  
+| OLED SCL         | GPIO 22      |  
+| HC-SR04 Trig     | GPIO 12      |  
+| HC-SR04 Echo     | GPIO 13      |  
+| IR Sensor Left   | GPIO 32      |  
+| IR Sensor Right  | GPIO 33      |  
+| L298N IN1-IN4    | GPIO 25-14   |  
+
+⚠️ **Important**:  
+- Use a **voltage divider** (1kΩ + 2kΩ resistors) for HC-SR04’s `Echo` pin (5V → ESP32’s 3.3V).  
+- Power motors separately (L298N needs 5V-12V, ESP32 needs 3.3V).  
+
+---
+
+### **4. Uploading the Code**  
+1. Connect ESP32 via USB.  
+2. Select:  
+   - **Board**: `ESP32 Dev Module`  
+   - **Port**: `COMx` (Windows) or `/dev/cu.usbmodemxxx` (Mac)  
+3. Click **Upload** (→ button).  
+
+---
+
+### **Troubleshooting**  
+- **OLED Not Working?** Check I2C address (try `0x3C` or `0x3D`).  
+- **ESP32 Not Detected?** Install correct drivers (CP210x or CH340).  
+- **Motors Not Spinning?** Verify L298N power supply.  
+
