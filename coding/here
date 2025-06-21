@@ -1,0 +1,111 @@
+#include <Wire.h>
+
+// IR Pins
+#define IR_LEFT 32
+#define IR_RIGHT 33
+
+// Ultrasonic Pins
+#define TRIG_PIN 12
+#define ECHO_PIN 13
+
+// Motor Pins
+#define MOTOR_A_IN1 25
+#define MOTOR_A_IN2 26
+#define MOTOR_B_IN1 27
+#define MOTOR_B_IN2 14
+
+// Motor Speed
+#define SPEED 150
+
+void setup() {
+  pinMode(IR_LEFT, INPUT);
+  pinMode(IR_RIGHT, INPUT);
+  
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  
+  pinMode(MOTOR_A_IN1, OUTPUT);
+  pinMode(MOTOR_A_IN2, OUTPUT);
+  pinMode(MOTOR_B_IN1, OUTPUT);
+  pinMode(MOTOR_B_IN2, OUTPUT);
+  
+  Serial.begin(115200);
+}
+
+void loop() {
+  // Read IR sensors (LOW = line detected)
+  bool leftIR = !digitalRead(IR_LEFT);
+  bool rightIR = !digitalRead(IR_RIGHT);
+  
+  // Read distance (cm)
+  float distance = readDistance();
+  
+  // Obstacle priority: Stop if too close!
+  if (distance < 10.0) {
+    stopMotors();
+    Serial.println("Obstacle detected!");
+    delay(500);
+    return;
+  }
+  
+  // Line following logic
+  if (leftIR && !rightIR) {
+    turnLeft();
+  } 
+  else if (rightIR && !leftIR) {
+    turnRight();
+  } 
+  else if (!leftIR && !rightIR) {
+    moveForward();
+  } 
+  else {
+    stopMotors();
+  }
+  
+  delay(10);
+}
+
+// Ultrasonic distance function
+float readDistance() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  return pulseIn(ECHO_PIN, HIGH) * 0.034 / 2;
+}
+
+// Motor control functions
+void moveForward() {
+  digitalWrite(MOTOR_A_IN1, HIGH);
+  digitalWrite(MOTOR_A_IN2, LOW);
+  digitalWrite(MOTOR_B_IN1, HIGH);
+  digitalWrite(MOTOR_B_IN2, LOW);
+  analogWrite(MOTOR_A_IN1, SPEED);
+  analogWrite(MOTOR_B_IN1, SPEED);
+}
+
+void turnLeft() {
+  digitalWrite(MOTOR_A_IN1, LOW);
+  digitalWrite(MOTOR_A_IN2, HIGH);
+  digitalWrite(MOTOR_B_IN1, HIGH);
+  digitalWrite(MOTOR_B_IN2, LOW);
+  analogWrite(MOTOR_A_IN2, SPEED);
+  analogWrite(MOTOR_B_IN1, SPEED);
+}
+
+void turnRight() {
+  digitalWrite(MOTOR_A_IN1, HIGH);
+  digitalWrite(MOTOR_A_IN2, LOW);
+  digitalWrite(MOTOR_B_IN1, LOW);
+  digitalWrite(MOTOR_B_IN2, HIGH);
+  analogWrite(MOTOR_A_IN1, SPEED);
+  analogWrite(MOTOR_B_IN2, SPEED);
+}
+
+void stopMotors() {
+  digitalWrite(MOTOR_A_IN1, LOW);
+  digitalWrite(MOTOR_A_IN2, LOW);
+  digitalWrite(MOTOR_B_IN1, LOW);
+  digitalWrite(MOTOR_B_IN2, LOW);
+}
