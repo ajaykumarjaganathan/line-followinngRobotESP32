@@ -1,0 +1,17 @@
+***Real-Time Data***
+
+Priority Alerts:
+
+Obstacle detection overrides everything with a STOPPED! warning
+
+How It Looks on OLED:
+text
+L:1 R:0 Dist:25.3cm
+     ▲
+   FORWARD
+(When turning left):
+
+text
+L:1 R:0 Dist:32.1cm
+   ◄ 
+  LEFT
