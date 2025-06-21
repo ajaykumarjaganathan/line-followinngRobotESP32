@@ -1,7 +1,6 @@
 # line-followinngRobotESP32
 **Core Components**
-Core Components
-Microcontroller
+***Microcontroller**
 
 ESP32 Board (e.g., ESP32-WROOM, NodeMCU-32S)
 
