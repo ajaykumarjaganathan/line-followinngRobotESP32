@@ -1,71 +1,113 @@
 #include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
 
-// IR Pins
+// OLED Setup (128x64)
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
+
+// IR Sensors
 #define IR_LEFT 32
 #define IR_RIGHT 33
 
-// Ultrasonic Pins
+// Ultrasonic
 #define TRIG_PIN 12
 #define ECHO_PIN 13
 
-// Motor Pins
+// Motor Pins (L298N)
 #define MOTOR_A_IN1 25
 #define MOTOR_A_IN2 26
 #define MOTOR_B_IN1 27
 #define MOTOR_B_IN2 14
 
-// Motor Speed
+// Motor Speed (PWM)
 #define SPEED 150
 
 void setup() {
+  Serial.begin(115200);
+  
+  // Initialize OLED
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println("OLED failed!");
+    while(1);
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  
+  // Sensor Setup
   pinMode(IR_LEFT, INPUT);
   pinMode(IR_RIGHT, INPUT);
-  
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   
+  // Motor Setup
   pinMode(MOTOR_A_IN1, OUTPUT);
   pinMode(MOTOR_A_IN2, OUTPUT);
   pinMode(MOTOR_B_IN1, OUTPUT);
   pinMode(MOTOR_B_IN2, OUTPUT);
-  
-  Serial.begin(115200);
 }
 
 void loop() {
-  // Read IR sensors (LOW = line detected)
+  // Read Sensors
   bool leftIR = !digitalRead(IR_LEFT);
   bool rightIR = !digitalRead(IR_RIGHT);
-  
-  // Read distance (cm)
   float distance = readDistance();
+
+  // Clear and Prepare Display
+  display.clearDisplay();
   
-  // Obstacle priority: Stop if too close!
-  if (distance < 10.0) {
+  // Show Sensor Status (Top Section)
+  display.setCursor(0, 0);
+  display.print("L:"); display.print(leftIR);
+  display.print(" R:"); display.println(rightIR);
+  display.print("Dist:"); display.print(distance); display.println("cm");
+  
+  // Obstacle Detection (Priority)
+  if(distance < 10.0) {
     stopMotors();
-    Serial.println("Obstacle detected!");
+    display.drawTriangle(64,40, 54,60, 74,60, WHITE); // Stop Symbol
+    display.setCursor(30, 45);
+    display.println("STOPPED!");
+    display.display();
     delay(500);
     return;
   }
-  
-  // Line following logic
-  if (leftIR && !rightIR) {
+
+  // Movement Decision + Visual Indicators
+  if(leftIR && !rightIR) {
     turnLeft();
+    // Left Arrow
+    display.fillTriangle(30,40, 50,30, 50,50, WHITE);
+    display.setCursor(60, 40);
+    display.println("LEFT");
   } 
-  else if (rightIR && !leftIR) {
+  else if(rightIR && !leftIR) {
     turnRight();
+    // Right Arrow
+    display.fillTriangle(90,40, 70,30, 70,50, WHITE);
+    display.setCursor(20, 40);
+    display.println("RIGHT");
   } 
-  else if (!leftIR && !rightIR) {
+  else if(!leftIR && !rightIR) {
     moveForward();
+    // Up Arrow
+    display.fillTriangle(64,30, 54,50, 74,50, WHITE);
+    display.setCursor(50, 20);
+    display.println("FORWARD");
   } 
   else {
     stopMotors();
+    display.setCursor(50, 40);
+    display.println("IDLE");
   }
   
+  display.display();
   delay(10);
 }
 
-// Ultrasonic distance function
+// --- Helper Functions ---
 float readDistance() {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
@@ -75,7 +117,6 @@ float readDistance() {
   return pulseIn(ECHO_PIN, HIGH) * 0.034 / 2;
 }
 
-// Motor control functions
 void moveForward() {
   digitalWrite(MOTOR_A_IN1, HIGH);
   digitalWrite(MOTOR_A_IN2, LOW);
