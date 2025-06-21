@@ -29,3 +29,18 @@ Robot Chassis Kit
 
 Jumper Wires (Male-to-Female, Female-to-Female)
 
+
+**IF Additions COMPONENTS AS YOUR WISHES**
+
+**OLED Display**
+(I2C 0.96")
+
+SSD1306 128x64 Pixel Display (I2C interface)
+Function: Shows sensor readings, battery status, and debug info.
+**
+Ultrasonic Sensor**
+(HC-SR04)
+
+HC-SR04 (or JSN-SR04T for waterproofing)
+Function: Detects obstacles ahead (e.g., 10cm threshold to stop motors).
+
