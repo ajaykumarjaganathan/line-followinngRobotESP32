@@ -1,28 +1,91 @@
-Wiring Guide
-OLED (I2C)
-OLED Pin	ESP32 Pin
-SDA	GPIO 21
-SCL	GPIO 22
-VCC	3.3V
-GND	GND
-HC-SR04
-HC-SR04 Pin	ESP32 Pin
-VCC	5V
-Trig	GPIO 12
-Echo	GPIO 13
-GND	GND
-Line Sensors (Example for 3x TCRT5000)
-Left: GPIO 32
+🔧 Components Required
+🧠 Microcontroller
 
-Middle: GPIO 35
+Arduino Nano (ATmega328P) – Main controller for sensor reading, PID computation, and motor control
 
-Right: GPIO 34
+👀 Sensors
+1️⃣ IR Line Tracking Sensors (3 Units)
 
-L298N Motor Driver
-IN1 → GPIO 25
+TCRT5000-based modules (digital output)
 
-IN2 → GPIO 26
+Used for black line detection
 
-IN3 → GPIO 27
+Mounted at front underside of chassis
 
-IN4 → GPIO 14
+2️⃣ Ultrasonic Sensor – HC-SR04
+
+Used for obstacle detection
+
+Operating voltage: 5V
+
+Measurement range: 2cm – 400cm
+
+⚙️ Motor Driver
+L298N Dual H-Bridge Motor Driver Module
+
+Controls direction and speed of 2 DC motors
+
+Supports PWM for speed control
+
+Input voltage: 7V–12V recommended
+
+🚗 Actuators
+
+2 × DC Geared Motors (6V–12V)
+
+1 × Robot Car Chassis (2WD recommended)
+
+2 × Wheels
+
+1 × Castor wheel (for balance)
+
+🔋 Power Supply
+Recommended:
+
+7.4V Li-ion Battery Pack (2 × 18650 cells)
+
+Battery holder or BMS module
+
+ON/OFF switch
+
+Not Recommended:
+
+Small rectangular 9V battery ❌
+
+Weak AA cells ❌
+
+💡 Indicators (Optional but Recommended)
+
+3 × LEDs (Green, Yellow, Red)
+
+220Ω resistors (for LEDs)
+
+Active buzzer module (optional)
+
+🔌 Miscellaneous
+
+Breadboard / PCB
+
+Jumper wires (Male-Male, Male-Female)
+
+Screws & spacers
+
+Zip ties (for cable management)
+
+📊 Software Requirements
+
+Arduino IDE
+
+C/C++ (Embedded programming)
+
+PID control algorithm implementation
+
+📦 Optional Upgrade Components (For Future Enhancements)
+
+5-IR Sensor Array (for higher precision PID)
+
+OLED Display (0.96” I2C)
+
+Bluetooth Module (HC-05)
+
+ESP32 (for IoT upgrade)
