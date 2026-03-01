@@ -1,47 +1,258 @@
-**Core Components***
-**Microcontroller**
+🚗 Smart Adaptive PID Line Following Robot with Obstacle Intelligence 🤖
+📌 Project Overview
 
-ESP32 Board (e.g., ESP32-WROOM, NodeMCU-32S)
-**
-Line Sensors**
+This project implements a PID-based autonomous line-following robot using an Arduino Nano.
+Unlike traditional line followers that rely on simple conditional logic, this system uses closed-loop PID control to ensure smooth, stable, and adaptive navigation.
 
-5x IR Infrared Sensors (TCRT5000) or QTR-8A Reflectance Sensor Array
+Additionally, the robot integrates ultrasonic obstacle detection, enabling intelligent environmental awareness.
 
-**Motor Driver**
+🧠 Key Features
 
-L298N (or TB6612FNG for efficiency)
+✅ PID-based smooth line tracking
 
-**Motors & Wheels**
+✅ Adaptive speed control on curves
 
-2x Geared DC Motors (6V, 100-200 RPM) + Rubber Wheels
+✅ Ultrasonic obstacle detection
 
-1x Caster Wheel (for balance)
+✅ Dynamic motor speed correction
 
-**Power Supply**
+✅ LED status indicators
 
-7.4V LiPo Battery (or 2x 18650 Cells)
+✅ Junction detection capability
 
-5V Voltage Regulator (LM7805) (if needed)
+✅ Expandable architecture
 
-**Chassis & Wiring**
+🔧 Hardware Components
 
-Robot Chassis Kit
+Arduino Nano (ATmega328P)
 
-Jumper Wires (Male-to-Female, Female-to-Female)
+IR Line Tracking Sensors (2/3/5 array)
 
+L298N Motor Driver Module
 
-**IF Additions COMPONENTS AS YOUR WISHES**
+DC Motors + Chassis
 
-**OLED Display**
-(I2C 0.96")
+HC-SR04 Ultrasonic Sensor
 
-SSD1306 128x64 Pixel Display (I2C interface)
-Function: Shows sensor readings, battery status, and debug info.
-**
-Ultrasonic Sensor**
-(HC-SR04)
+Li-ion Battery (7.4V recommended)
 
-HC-SR04 (or JSN-SR04T for waterproofing)
-Function: Detects obstacles ahead (e.g., 10cm threshold to stop motors).
+LEDs (Status indicators)
 
+Buzzer (Optional)
 
+🔍 System Architecture
+IR Sensors → Arduino Nano → PID Algorithm → L298N → Motors
+Ultrasonic Sensor → Arduino Nano → Obstacle Logic
+Battery → Motor Driver + Arduino
+⚙️ Working Principle
+1️⃣ Line Detection
+
+IR sensors detect contrast between black line and white surface.
+
+Black surface → Low reflection
+
+White surface → High reflection
+
+Sensor data is converted into a positional error value.
+
+2️⃣ PID Control Logic
+
+The correction value is calculated using:
+
+𝑂
+𝑢
+𝑡
+𝑝
+𝑢
+𝑡
+=
+(
+𝐾
+𝑝
+×
+𝑒
+𝑟
+𝑟
+𝑜
+𝑟
+)
++
+(
+𝐾
+𝑖
+×
+𝑖
+𝑛
+𝑡
+𝑒
+𝑔
+𝑟
+𝑎
+𝑙
+)
++
+(
+𝐾
+𝑑
+×
+𝑑
+𝑒
+𝑟
+𝑖
+𝑣
+𝑎
+𝑡
+𝑖
+𝑣
+𝑒
+)
+Output=(Kp×error)+(Ki×integral)+(Kd×derivative)
+
+Motor speeds are dynamically adjusted:
+
+Left Motor Speed  = Base Speed - Correction
+Right Motor Speed = Base Speed + Correction
+
+This ensures:
+
+Smooth turns
+
+Reduced oscillation
+
+Faster response
+
+3️⃣ Adaptive Speed Mechanism
+
+The robot reduces speed on curves:
+
+baseSpeed = MAX_SPEED - abs(error) * factor;
+
+This increases stability during sharp turns.
+
+4️⃣ Obstacle Intelligence
+
+The ultrasonic sensor continuously measures distance:
+
+𝐷
+𝑖
+𝑠
+𝑡
+𝑎
+𝑛
+𝑐
+𝑒
+=
+(
+𝑇
+𝑖
+𝑚
+𝑒
+×
+0.034
+)
+/
+2
+Distance=(Time×0.034)/2
+
+If obstacle distance < threshold:
+
+Robot stops
+
+Optional rerouting logic executes
+
+📊 Control Flow
+Start
+ ↓
+Read Ultrasonic Sensor
+ ↓
+If Obstacle → Stop / Avoid
+Else
+ ↓
+Read IR Sensors
+ ↓
+Calculate Error
+ ↓
+Compute PID Output
+ ↓
+Adjust Motor Speed
+ ↓
+Repeat Loop
+🔢 Example PID Parameters
+Kp = 20;
+Ki = 0;
+Kd = 8;
+
+Note: PID values must be tuned based on track conditions.
+
+🚀 Advantages Over Traditional Line Followers
+Traditional	This Project
+Binary logic	Closed-loop control
+Jerky motion	Smooth tracking
+Constant speed	Adaptive speed
+No intelligence	Obstacle-aware
+📸 Hardware Images
+
+(Add your real images here)
+
+Chassis setup
+
+Sensor mounting
+
+Wiring connections
+
+Final robot view
+
+🔌 Wiring Overview
+Component	Arduino Pin
+IR Left	D2
+IR Right	D3
+Ultrasonic TRIG	D8
+Ultrasonic ECHO	D9
+L298N IN1	D4
+L298N IN2	D5
+L298N IN3	D6
+L298N IN4	D7
+🛠 Future Enhancements
+
+Bluetooth control mode
+
+OLED live diagnostics display
+
+Maze-solving algorithm
+
+AI-based vision tracking
+
+PID auto-tuning
+
+🎯 Applications
+
+Warehouse automation
+
+Industrial transport systems
+
+Smart logistics
+
+Educational robotics
+
+Autonomous navigation research
+
+📚 Technical Concepts Used
+
+Closed-loop control system
+
+PID algorithm
+
+PWM motor speed control
+
+Ultrasonic ranging
+
+Embedded C (Arduino)
+
+📌 Author
+
+AJAYKUMAR JAGANATHAN
+Artificial Intelligence & Data Science Student
+
+📜 License
+
+This project is open-source and available under the MIT License.
