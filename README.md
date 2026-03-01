@@ -1,4 +1,4 @@
-🚗 Smart Adaptive PID Line Following Robot with Obstacle Intelligence 🤖
+**🚗 Smart Adaptive PID Line Following Robot with Obstacle Intelligence 🤖**
 📌 Project Overview
 
 This project implements a PID-based autonomous line-following robot using an Arduino Nano.
@@ -250,7 +250,7 @@ Embedded C (Arduino)
 
 📌 Author
 
-AJAYKUMAR JAGANATHAN
+AJAYKUMAR JAGANATHAN  | 
 Artificial Intelligence & Data Science Student
 
 📜 License
